@@ -8,6 +8,7 @@ alunos = {}
 
 # read all pages os all years except 1959, 1963, 1994, 2004
 for year in years:
+    print('Scraping', year)
     url_full = url + year
     if year == '1982': url_full = 'http://aeitaonline.com.br/wiki/index.php?title=Turma_de_1982_completa'
     if year == '1985': url_full = 'http://aeitaonline.com.br/wiki/index.php?title=Formandos_da_Turma_1985'
@@ -30,6 +31,7 @@ for year in years:
 # read pages of years 1959, 1963, 1994, 2004
 years = ['1959', '1963', '1994', '2004']
 for year in years:
+    print('Scraping', year)
     map_year = {'1959':0, '1963':1, '1994':0, '2004':2, '2005':1}
     table = pd.read_html(url + year)[map_year[year]]
     for i in range(len(table)):
@@ -38,6 +40,7 @@ for year in years:
 df = pd.DataFrame(alunos).T.reset_index()
 df.columns = ['Aluno', 'Curso', 'Apelido', 'Turma', 'Falecido']
 
+print('Cleaning data')
 # resolve inconsistencies for different page formats
 df.drop(df.index[[560,2900, 559, 4515, 4514, 4613, 4614, 3455, 4740, 4741, 4846, 4847]], inplace=True)
 df.loc[df['Curso']=="", 'Curso'] = 'FUND'
@@ -55,4 +58,7 @@ df.loc[df.Curso.isin(map_saiu), 'Curso'] = 'FUND'
 df['Apelido'] = df['Apelido'].apply(lambda x: "" if x in map_saiu else x)
 
 # save final dataframe
+print('Saving result')
 df.to_csv("alunos_exalunos_ITA.csv", encoding = 'latin-1', errors = 'ignore')
+
+print('Done')
