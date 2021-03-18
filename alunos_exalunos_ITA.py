@@ -6,12 +6,13 @@ url = "http://aeitaonline.com.br/wiki/index.php?title=Turma_de_"
 years = [str(year) for year in range(1951, 2026)]
 alunos = {}
 
-# read all pages os all years except 1959, 1963, 1994, 2004, 2005
+# read all pages os all years except 1959, 1963, 1994, 2004
 for year in years:
     url_full = url + year
     if year == '1982': url_full = 'http://aeitaonline.com.br/wiki/index.php?title=Turma_de_1982_completa'
     if year == '1985': url_full = 'http://aeitaonline.com.br/wiki/index.php?title=Formandos_da_Turma_1985'
     if year == '1990': url_full = 'http://aeitaonline.com.br/wiki/index.php?title=Nojentos'
+    if year == '2005': url_full = 'http://aeitaonline.com.br/wiki/index.php?title=Formandos_da_Turma_2005'
     if year == '2009': url_full = 'http://aeitaonline.com.br/wiki/index.php?title=Formandos_da_Turma_2009'
     web = req.get(url_full)
     html = BeautifulSoup(web.text, 'lxml')
@@ -26,8 +27,8 @@ for year in years:
             else: txt.append('')
             alunos[txt[0].strip()] = txt[1:]
 
-# read pages of years 1959, 1963, 1994, 2004, 2005
-years = ['1959', '1963', '1994', '2004', '2005']
+# read pages of years 1959, 1963, 1994, 2004
+years = ['1959', '1963', '1994', '2004']
 for year in years:
     map_year = {'1959':0, '1963':1, '1994':0, '2004':2, '2005':1}
     table = pd.read_html(url + year)[map_year[year]]
@@ -54,4 +55,4 @@ df.loc[df.Curso.isin(map_saiu), 'Curso'] = 'FUND'
 df['Apelido'] = df['Apelido'].apply(lambda x: "" if x in map_saiu else x)
 
 # save final dataframe
-df.to_csv("alunos_exalunos_ita.csv", encoding = 'latin-1', errors = 'ignore')
+df.to_csv("alunos_exalunos_ITA.csv", encoding = 'latin-1', errors = 'ignore')
