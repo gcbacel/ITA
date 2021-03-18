@@ -38,7 +38,7 @@ df = pd.DataFrame(alunos).T.reset_index()
 df.columns = ['Aluno', 'Curso', 'Apelido', 'Turma', 'Falecido']
 
 # resolve inconsistencies for different page formats
-df.drop(df.index[[560,2900, 559, 4515, 4514, 4613, 4614, 3455, 4740, 4741, 4846]], inplace=True)
+df.drop(df.index[[560,2900, 559, 4515, 4514, 4613, 4614, 3455, 4740, 4741, 4846, 4847]], inplace=True)
 df.loc[df['Curso']=="", 'Curso'] = 'FUND'
 df['Curso'] = [x[0] for x in df['Curso'].str.split()]
 df.loc[df.Curso.str.find('alec')>0, 'Falecido'] = 'sim'
